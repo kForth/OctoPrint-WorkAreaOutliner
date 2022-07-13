@@ -1,56 +1,59 @@
 
-# OctoPrint-Framer
-
-#### author:
-- Ricardo Riet Correa
-
-#### license: 
-GNUv3
-
-#### date: 
-2022-04-05
-
-#### Links
-homepage: https://github.com/rriet/OctoPrint-Framer
-
-source: https://github.com/rriet/OctoPrint-Framer
-
-archive: https://github.com/rriet/OctoPrint-Framer/archive/master.zip
+# OctoPrint-WorkAreaOutliner
 
 ## Description
-This plugin adds a button to verify the working area of a Gcode on a CNC or Laser cutter.
-It works by extracting the maximum and minimum X and Y and sending a G0 code to move the CNC/Laser to the corner locations.
+This plugin adds an "Outline" button to preview the working area of a Gcode file.
 
-#### tags:
-- Octoprint
-- Laser
-- CNC
+If there is no bounding box in the gcode metadata, WorkAreaOutliner will manually calculate it.
 
-## screenshots:
-![Main screen with Frame button](https://github.com/rriet/OctoPrint-Framer/blob/master/assets/img/plugins/framer/screen.png "Frame button and plugin output")
-![Settings screen](https://github.com/rriet/OctoPrint-Framer/blob/master/assets/img/plugins/framer/settings.png "Settings screen")
+## Slicer Metadata
+If using a supported slicer program, this plugin can read the work area from the file metadata.
+
+If metadata is not available, the work area will be automatically calculated.
+
+### Supported Slicers:
+- Cura
+- PrusaSlicer
+- SuperSlicer
+- Slic3r
+- Lightburn (inherited from OctoPrint-Framer, untested)
+- Fusion360 (inherited from OctoPrint-Framer, untested)
+
+## Screenshots:
+![Control Tab with Outline button](https://raw.githubusercontent.com/kForth/plugins.octoprint.org/dev/WorkAreaOutliner/assets/img/plugins/WorkAreaOutliner/screen.png)
+![Settings screen](https://raw.githubusercontent.com/kForth/plugins.octoprint.org/dev/WorkAreaOutliner/assets/img/plugins/WorkAreaOutliner/settings.png)
 
 ## Setup
+### Requirements
+- Python >= 3.8
 
+### Installation
 Install via the bundled [Plugin Manager](https://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html) or manually using this URL:
 
-    https://github.com/rriet/OctoPrint-Framer/archive/master.zip
+    https://github.com/kforth/OctoPrint-WorkAreaOutliner/archive/main.zip
 
 ## Usage
 ### Configuration
-After installation restart OctoPrint, go to the Settings tab and set the CNC/Laser movement speed.
+After installation restart OctoPrint, go to the Settings tab to configure the plugin.
 
-### Frame function
-- Connect the CNC/Laser
-- Upload and load the Gcode file
-- Home the CNC/Laser or use a G92 code to set the origin point
-- Click the Frame button
-- Observe the movement of the CNC/Laser to see where the work area is on the plataform. Be ready to stop the machine to avoid colisions.
+### Outline Function
+- Connect to the machine
+- Home the machine (or set origin manually)
+- Load the Gcode file
+- Navigate to the 'Control' tab and click the 'Outline' button
+- Watch the machine as it outlines the bounding box of the work area
+  - Be ready to stop the machine to avoid colisions!
 
-## Warmings: 
-- The plugin will not move the Z axis
+### Warnings
+- Make sure the machine is homed correctly.
 - Make sure the area is clear to avoid colisions.
 
-## Disclaimer:
-I, the plugin author cannot be held responsible for any damage to equipment or injuries that may arise from using the plugin. I, the plugin author, make no guarantees that this plugin will work or continue to work.
+## License
 
+Copyright © 2022 [Kestin Goforth](https://github.com/kforth/).
+
+Based on work from [Ricardo Riet Correa](https://github.com/rriet/OctoPrint-Framer).
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html) for more details.

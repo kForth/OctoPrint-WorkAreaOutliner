@@ -1,6 +1,8 @@
+__pycache__
 *.pyc
 *.swp
 .idea
+.vscode
 *.iml
 build
 dist

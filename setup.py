@@ -4,33 +4,33 @@
 ### Do not forget to adjust the following variables to your own plugin.
 
 # The plugin's identifier, has to be unique
-plugin_identifier = "framer"
+plugin_identifier = "WorkAreaOutliner"
 
 # The plugin's python package, should be "octoprint_<plugin identifier>", has to be unique
-plugin_package = "octoprint_framer"
+plugin_package = "octoprint_WorkAreaOutliner"
 
 # The plugin's human readable name. Can be overwritten within OctoPrint's internal data via __plugin_name__ in the
 # plugin module
-plugin_name = "OctoPrint-Framer"
+plugin_name = "OctoPrint-WorkAreaOutliner"
 
 # The plugin's version. Can be overwritten within OctoPrint's internal data via __plugin_version__ in the plugin module
-plugin_version = "0.1.0"
+plugin_version = "1.0.0"
 
 # The plugin's description. Can be overwritten within OctoPrint's internal data via __plugin_description__ in the plugin
 # module
-plugin_description = """Adds frame buttons to the items in the file list which let you verify the area used for the laser/CNC job."""
+plugin_description = """Adds an 'Outline' button to preview the working area of a gcode file."""
 
 # The plugin's author. Can be overwritten within OctoPrint's internal data via __plugin_author__ in the plugin module
-plugin_author = "Ricardo Riet Correa"
+plugin_author = "Kestin Goforth"
 
 # The plugin's author's mail address.
-plugin_author_email = "ricardo_riet@yahoo.com"
+plugin_author_email = "kgoforth1503@gmail.com"
 
 # The plugin's homepage URL. Can be overwritten within OctoPrint's internal data via __plugin_url__ in the plugin module
-plugin_url = "https://github.com/rriet/OctoPrint-Framer"
+plugin_url = "https://github.com/kforth/OctoPrint-WorkAreaOutliner"
 
 # The plugin's license. Can be overwritten within OctoPrint's internal data via __plugin_license__ in the plugin module
-plugin_license = "GPLv3"
+plugin_license = "AGPLv3"
 
 # Any additional requirements besides OctoPrint should be listed here
 plugin_requires = []
@@ -61,7 +61,7 @@ plugin_ignored_packages = []
 #     additional_setup_parameters = {"dependency_links": ["https://github.com/someUser/someRepo/archive/master.zip#egg=someDependency-dev"]}
 # "python_requires": ">=3,<4" blocks installation on Python 2 systems, to prevent confused users and provide a helpful error. 
 # Remove it if you would like to support Python 2 as well as 3 (not recommended).
-additional_setup_parameters = {"python_requires": ">=3,<4"}
+additional_setup_parameters = {"python_requires": ">=3.8,<4"}
 
 ########################################################################################################################
 

@@ -1,0 +1,166 @@
+<h3>{{ _('WorkAreaOutliner Settings') }}</h3>
+
+<form class="form-horizontal" id="workAreaOutliner-settings" onsubmit="return false;">
+
+    <fieldset id="workAreaOutliner-movementSettings">    
+        <legend>{{ _('General') }}</legend>
+    
+        <div class="control-group">
+            <div class="controls" id="workAreaOutliner-ignoreMetadata">
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.ignoreMetadata">
+                    {{ _('Ignore Metadata left by slicers always use calculated work area') }}
+                </label>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset id="workAreaOutliner-movementSettings">    
+        <legend>{{ _('Movement') }}</legend>
+
+        <div class="control-group">
+            <div class="controls" id="workAreaOutliner-zAxisEnable">
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.zAxisEnable">
+                    {{ _('Enable Z-Axis Movement') }}
+                </label>
+            </div>
+            <div class="controls" id="workAreaOutliner-homeFirst">
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.homeFirst">
+                    {{ _('Home Before Outlining') }}
+                </label>
+            </div>
+        </div>
+        <div class="control-group" id="workAreaOutliner-feedrateSrc">
+            <label class="control-label">{{ _('Outline Feedrate') }}:</label>
+            <div class="controls">
+                <select id="workAreaOutliner-park-speed" data-bind="value: settings.plugins.WorkAreaOutliner.feedrateSrc">
+                    <option value="auto">Auto</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group" id="workAreaOutliner-customFeedrateXY">
+            <label class="control-label">{{ _('XY Feedrate') }}:</label>
+            <div class="controls">
+                <div class="input-append">
+                    <input type="number" min="5" step="100" data-bind="value: settings.plugins.WorkAreaOutliner.customFeedrateXY">
+                    <span class="add-on">mm/m</span>
+                </div>
+            </div>
+        </div>
+        <div class="control-group" id="workAreaOutliner-customFeedrateZ">
+            <label class="control-label">{{ _('Z Feedrate') }}:</label>
+            <div class="controls">
+                <div class="input-append">
+                    <input type="number" min="5" step="100" data-bind="value: settings.plugins.WorkAreaOutliner.customFeedrateZ">
+                    <span class="add-on">mm/m</span>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset id="workAreaOutliner-endPositions">    
+        <legend>{{ _('End Positions') }}</legend>
+            
+        <div class="control-group" id="workAreaOutliner-xyEndMode">
+            <label class="control-label">{{ _('XY End Position') }}:</label>
+            <div class="controls">
+                <select data-bind="value: settings.plugins.WorkAreaOutliner.xyEndMode">
+                    <option value="restore">Position Before Outlining</option>
+                    <option value="center">Center of Model</option>
+                    <option value="home">Home Position</option>
+                    <option value="park">Park Position</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group" id="workAreaOutliner-zEndMode">
+            <label class="control-label">{{ _('Z End Position') }}:</label>
+            <div class="controls">
+                <select data-bind="value: settings.plugins.WorkAreaOutliner.zEndMode">
+                    <option value="restore">Position Before Outlining</option>
+                    <option value="max">Max Height of Model</option>
+                    <option value="home">Home Position</option>
+                    <option value="park">Park Position</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group" id="workAreaOutliner-xyParkPosition">
+            <label class="control-label">{{ _('XY Park Position') }}:</label>
+            <div class="controls">
+                <select data-bind="value: settings.plugins.WorkAreaOutliner.xyParkPosition">
+                    <option value="center">Center of Bed</option>
+                    <option value="min_min">Min X / Min Y</option>
+                    <option value="min_max">Min X / Max Y</option>
+                    <option value="max_min">Max X / Min Y</option>
+                    <option value="max_max">Max X / Max Y</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group" id="workAreaOutliner-zParkPosition">
+            <label class="control-label">{{ _('Z Park Position') }}:</label>
+            <div class="controls">
+                <select data-bind="value: settings.plugins.WorkAreaOutliner.zParkPosition">
+                    <option value="nearbed">Near Bed</option>
+                    <option value="modelheight">Max Model Height</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group" id="workAreaOutliner-xParkCoord">
+            <label class="control-label">{{ _('X Position') }}:</label>
+            <div class="controls">
+                <div class="input-append">
+                    <input type="number" step="0.1" data-bind="value: settings.plugins.WorkAreaOutliner.xParkCoord">
+                    <span class="add-on">mm</span>
+                </div>
+            </div>
+        </div>
+        <div class="control-group" id="workAreaOutliner-yParkCoord">
+            <label class="control-label">{{ _('Y Position') }}:</label>
+            <div class="controls">
+                <div class="input-append">
+                    <input type="number" step="0.1" data-bind="value: settings.plugins.WorkAreaOutliner.yParkCoord">
+                    <span class="add-on">mm</span>
+                </div>
+            </div>
+        </div>
+        <div class="control-group" id="workAreaOutliner-zParkCoord">
+            <label class="control-label">{{ _('Z Park Position') }}:</label>
+            <div class="controls">
+                <div class="input-append">
+                    <input type="number" step="0.1" data-bind="value: settings.plugins.WorkAreaOutliner.zParkCoord">
+                    <span class="add-on">mm</span>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset id="workAreaOutliner-manualOutlinerSettings">
+        <legend>{{ _('Manual Outline Calculation') }}</legend>
+
+        <div class="control-group">
+            <div class="controls" id="workAreaOutliner-ignoreTravelMoves">
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.ignoreTravelMoves">
+                    {{ _('Ignore Non-Extruding Moves') }}
+                </label>
+            </div>
+            <div class="controls" id="workAreaOutliner-waitForFirstLayer">
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.waitForFirstLayer">
+                    {{ _('Ignore Before First Layer') }}
+                </label>
+            </div>
+            <div class="controls" id="workAreaOutliner-stopAfterFirstLayer">
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.stopAfterFirstLayer">
+                    {{ _('Ignore After First Layer') }}
+                </label>
+            </div>
+        </div>
+    </fieldset>
+
+</form>

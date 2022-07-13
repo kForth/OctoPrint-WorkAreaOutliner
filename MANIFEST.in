@@ -1,4 +1,4 @@
 include README.md
-recursive-include octoprint_framer/templates *
-recursive-include octoprint_framer/translations *
-recursive-include octoprint_framer/static *
+recursive-include octoprint_WorkAreaOutliner/templates *
+recursive-include octoprint_WorkAreaOutliner/translations *
+recursive-include octoprint_WorkAreaOutliner/static *
