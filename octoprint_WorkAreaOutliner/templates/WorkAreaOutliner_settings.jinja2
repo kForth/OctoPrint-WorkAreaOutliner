@@ -1,166 +1,134 @@
-<h3>{{ _('WorkAreaOutliner Settings') }}</h3>
+<h3>{{ _('WorkAreaOutliner Plugin') }}</h3>
 
 <form class="form-horizontal" id="workAreaOutliner-settings" onsubmit="return false;">
-
-    <fieldset id="workAreaOutliner-movementSettings">    
+    <fieldset>
         <legend>{{ _('General') }}</legend>
-    
+
         <div class="control-group">
             <div class="controls" id="workAreaOutliner-ignoreMetadata">
                 <label class="checkbox">
-                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.ignoreMetadata">
-                    {{ _('Ignore Metadata left by slicers always use calculated work area') }}
+                    <input type="checkbox" data-bind="checked: ignoreMetadata">
+                    {{ _('Ignore Metadata left by slicers and always use calculated work area') }}
                 </label>
             </div>
         </div>
     </fieldset>
-
-    <fieldset id="workAreaOutliner-movementSettings">    
+    <fieldset>
         <legend>{{ _('Movement') }}</legend>
 
         <div class="control-group">
-            <div class="controls" id="workAreaOutliner-zAxisEnable">
+            <div class="controls">
                 <label class="checkbox">
-                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.zAxisEnable">
+                    <input type="checkbox" data-bind="checked: zAxisEnable">
                     {{ _('Enable Z-Axis Movement') }}
                 </label>
             </div>
-            <div class="controls" id="workAreaOutliner-homeFirst">
+            <div class="controls">
                 <label class="checkbox">
-                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.homeFirst">
+                    <input type="checkbox" data-bind="checked: homeFirst">
                     {{ _('Home Before Outlining') }}
                 </label>
             </div>
         </div>
-        <div class="control-group" id="workAreaOutliner-feedrateSrc">
+        <div class="control-group">
             <label class="control-label">{{ _('Outline Feedrate') }}:</label>
             <div class="controls">
-                <select id="workAreaOutliner-park-speed" data-bind="value: settings.plugins.WorkAreaOutliner.feedrateSrc">
-                    <option value="auto">Auto</option>
+                <select id="workAreaOutliner-park-speed" data-bind="value: feedrateSrc">
+                    <option value="auto">From Printer Profile</option>
                     <option value="custom">Custom</option>
                 </select>
             </div>
         </div>
-        <div class="control-group" id="workAreaOutliner-customFeedrateXY">
+        <div class="control-group" data-bind="visible: feedrateSrc() == 'custom'">
             <label class="control-label">{{ _('XY Feedrate') }}:</label>
             <div class="controls">
                 <div class="input-append">
-                    <input type="number" min="5" step="100" data-bind="value: settings.plugins.WorkAreaOutliner.customFeedrateXY">
+                    <input type="number" min="5" step="100" data-bind="value: customFeedrateXY">
                     <span class="add-on">mm/m</span>
                 </div>
             </div>
         </div>
-        <div class="control-group" id="workAreaOutliner-customFeedrateZ">
+        <div class="control-group" data-bind="visible: zAxisEnable() && feedrateSrc() == 'custom'">
             <label class="control-label">{{ _('Z Feedrate') }}:</label>
             <div class="controls">
                 <div class="input-append">
-                    <input type="number" min="5" step="100" data-bind="value: settings.plugins.WorkAreaOutliner.customFeedrateZ">
+                    <input type="number" min="5" step="100" data-bind="value: customFeedrateZ">
                     <span class="add-on">mm/m</span>
                 </div>
             </div>
         </div>
     </fieldset>
-
-    <fieldset id="workAreaOutliner-endPositions">    
+    <fieldset>
         <legend>{{ _('End Positions') }}</legend>
             
-        <div class="control-group" id="workAreaOutliner-xyEndMode">
+        <div class="control-group">
             <label class="control-label">{{ _('XY End Position') }}:</label>
             <div class="controls">
-                <select data-bind="value: settings.plugins.WorkAreaOutliner.xyEndMode">
-                    <option value="restore">Position Before Outlining</option>
-                    <option value="center">Center of Model</option>
+                <select data-bind="value: xyEndMode">
                     <option value="home">Home Position</option>
                     <option value="park">Park Position</option>
+                    <option value="model">Center of Model</option>
                 </select>
             </div>
         </div>
-        <div class="control-group" id="workAreaOutliner-zEndMode">
+        <div class="control-group" data-bind="visible: zAxisEnable()">
             <label class="control-label">{{ _('Z End Position') }}:</label>
             <div class="controls">
-                <select data-bind="value: settings.plugins.WorkAreaOutliner.zEndMode">
-                    <option value="restore">Position Before Outlining</option>
-                    <option value="max">Max Height of Model</option>
+                <select data-bind="value: zEndMode">
                     <option value="home">Home Position</option>
                     <option value="park">Park Position</option>
+                    <option value="model">Max Height of Model</option>
                 </select>
             </div>
         </div>
-        <div class="control-group" id="workAreaOutliner-xyParkPosition">
+        <div class="control-group" data-bind="visible: xyEndMode() == 'park'">
             <label class="control-label">{{ _('XY Park Position') }}:</label>
             <div class="controls">
-                <select data-bind="value: settings.plugins.WorkAreaOutliner.xyParkPosition">
-                    <option value="center">Center of Bed</option>
-                    <option value="min_min">Min X / Min Y</option>
+                <select data-bind="value: xyParkPosition">
+                    <option value="min">Min X / Min Y</option>
                     <option value="min_max">Min X / Max Y</option>
                     <option value="max_min">Max X / Min Y</option>
-                    <option value="max_max">Max X / Max Y</option>
+                    <option value="max">Max X / Max Y</option>
+                    <option value="center">Center of Bed</option>
                     <option value="custom">Custom</option>
                 </select>
             </div>
         </div>
-        <div class="control-group" id="workAreaOutliner-zParkPosition">
+        <div class="control-group" data-bind="visible: zAxisEnable() && zEndMode() == 'park'">
             <label class="control-label">{{ _('Z Park Position') }}:</label>
             <div class="controls">
-                <select data-bind="value: settings.plugins.WorkAreaOutliner.zParkPosition">
-                    <option value="nearbed">Near Bed</option>
-                    <option value="modelheight">Max Model Height</option>
+                <select data-bind="value: zParkPosition">
+                    <option value="min">Near Bed</option>
                     <option value="custom">Custom</option>
                 </select>
             </div>
         </div>
-        <div class="control-group" id="workAreaOutliner-xParkCoord">
+        <div class="control-group" data-bind="visible: xyEndMode() == 'park' && xyParkPosition() == 'custom'">
             <label class="control-label">{{ _('X Position') }}:</label>
             <div class="controls">
                 <div class="input-append">
-                    <input type="number" step="0.1" data-bind="value: settings.plugins.WorkAreaOutliner.xParkCoord">
+                    <input type="number" step="0.1" data-bind="value: xParkCoord">
                     <span class="add-on">mm</span>
                 </div>
             </div>
         </div>
-        <div class="control-group" id="workAreaOutliner-yParkCoord">
+        <div class="control-group" data-bind="visible: xyEndMode() == 'park' && xyParkPosition() == 'custom'">
             <label class="control-label">{{ _('Y Position') }}:</label>
             <div class="controls">
                 <div class="input-append">
-                    <input type="number" step="0.1" data-bind="value: settings.plugins.WorkAreaOutliner.yParkCoord">
+                    <input type="number" step="0.1" data-bind="value: yParkCoord">
                     <span class="add-on">mm</span>
                 </div>
             </div>
         </div>
-        <div class="control-group" id="workAreaOutliner-zParkCoord">
+        <div class="control-group" data-bind="visible: zAxisEnable() && zEndMode() == 'park' && zParkPosition() == 'custom'">
             <label class="control-label">{{ _('Z Park Position') }}:</label>
             <div class="controls">
                 <div class="input-append">
-                    <input type="number" step="0.1" data-bind="value: settings.plugins.WorkAreaOutliner.zParkCoord">
+                    <input type="number" step="0.1" data-bind="value: zParkCoord">
                     <span class="add-on">mm</span>
                 </div>
             </div>
         </div>
     </fieldset>
-
-    <fieldset id="workAreaOutliner-manualOutlinerSettings">
-        <legend>{{ _('Manual Outline Calculation') }}</legend>
-
-        <div class="control-group">
-            <div class="controls" id="workAreaOutliner-ignoreTravelMoves">
-                <label class="checkbox">
-                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.ignoreTravelMoves">
-                    {{ _('Ignore Non-Extruding Moves') }}
-                </label>
-            </div>
-            <div class="controls" id="workAreaOutliner-waitForFirstLayer">
-                <label class="checkbox">
-                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.waitForFirstLayer">
-                    {{ _('Ignore Before First Layer') }}
-                </label>
-            </div>
-            <div class="controls" id="workAreaOutliner-stopAfterFirstLayer">
-                <label class="checkbox">
-                    <input type="checkbox" data-bind="checked: settings.plugins.WorkAreaOutliner.stopAfterFirstLayer">
-                    {{ _('Ignore After First Layer') }}
-                </label>
-            </div>
-        </div>
-    </fieldset>
-
 </form>

@@ -9,55 +9,45 @@ $(function() {
     function WorkAreaOutlinerViewModel(parameters) {
         var self = this;
 
-        self.loginState = parameters[0];
-        self.printerState = parameters[1];
-        self.temperatureState = parameters[2];
-        
-        self.initializeSettings = function () {
-            self.updateSettingsVisibility = function () {
-                // Hide XY Feedrate input if feedrate src is not custom
-                $("#workAreaOutliner-customFeedrateXY").toggleClass('hidden',
-                    $("#workAreaOutliner-feedrateSrc select > option:selected").val() != "custom"
-                );
-                // Hide Z Feedrate input if Z is disabled or feedrate src is not custom
-                $("#workAreaOutliner-customFeedrateZ").toggleClass('hidden',
-                    $("#workAreaOutliner-zAxisEnable input").prop('checked') == false ||
-                    $("#workAreaOutliner-feedrateSrc select > option:selected").val() != "custom"
-                );
-                //Hide Z End Mode input if Z is disabled
-                $("#workAreaOutliner-zEndMode").toggleClass('hidden',
-                    $("#workAreaOutliner-zAxisEnable input").prop('checked') == false
-                );
-                //Hide XY Park Position input if XY End Mode is not park
-                $("#workAreaOutliner-xyParkPosition").toggleClass('hidden',
-                    $("#workAreaOutliner-xyEndMode select > option:selected").val() != "park"
-                );
-                //Hide XY Park Coords input if XY End Mode is not park or XY Park Location is not custom
-                $("#workAreaOutliner-xParkCoord, #workAreaOutliner-yParkCoord").toggleClass('hidden',
-                    $("#workAreaOutliner-xyEndMode select > option:selected").val() != "park" ||
-                    $("#workAreaOutliner-xyParkPosition select > option:selected").val() != "custom"
-                );
-                //Hide Z Park Position input if Z is disabled or Z End Mode is not park
-                $("#workAreaOutliner-zParkPosition").toggleClass('hidden',
-                    $("#workAreaOutliner-zAxisEnable input").prop('checked') == false ||
-                    $("#workAreaOutliner-zEndMode select > option:selected").val() != "park"
-                );
-                //Hide Z Park Coords input if Z is disabled, Z End Mode is not park, or Z Park Location is not custom
-                $("#workAreaOutliner-zParkCoord").toggleClass('hidden',
-                    $("#workAreaOutliner-zAxisEnable input").prop('checked') == false ||
-                    $("#workAreaOutliner-zEndMode select > option:selected").val() != "park" ||
-                    $("#workAreaOutliner-zParkPosition select > option:selected").val() != "custom"
-                );
-            };
-            
-            // Add event listeners to inputs
-            $("#workAreaOutliner-settings input").on('change', self.updateSettingsVisibility);
-            $("#workAreaOutliner-settings select").on('change', self.updateSettingsVisibility);
+        self.settings = parameters[0];
+        self.loginState = parameters[1];
+        self.printerState = parameters[2];
+        self.access = parameters[3];
 
-            // Add event
-            $("#settings_plugin_WorkAreaOutliner_link").on('click', self.updateSettingsVisibility);
+        self.ignoreMetadata = ko.observable();
+        self.zAxisEnable = ko.observable();
+        self.homeFirst = ko.observable();
+        self.feedrateSrc = ko.observable();
+        self.customFeedrateXY = ko.observable();
+        self.customFeedrateZ = ko.observable();
+        self.xyEndMode = ko.observable();
+        self.zEndMode = ko.observable();
+        self.xyParkPosition = ko.observable();
+        self.zParkPosition = ko.observable();
+        self.xParkCoord = ko.observable();
+        self.yParkCoord = ko.observable();
+        self.zParkCoord = ko.observable();
+
+        self.onBeforeBinding = function () {
+            var s = self.settings.settings.plugins.WorkAreaOutliner;
+            self.ignoreMetadata(s.ignoreMetadata);
+            self.zAxisEnable(s.zAxisEnable);
+            self.homeFirst(s.homeFirst);
+            self.feedrateSrc(s.feedrateSrc);
+            self.customFeedrateXY(s.customFeedrateXY);
+            self.customFeedrateZ(s.customFeedrateZ);
+            self.xyEndMode(s.xyEndMode);
+            self.zEndMode(s.zEndMode);
+            self.xyParkPosition(s.xyParkPosition);
+            self.zParkPosition(s.zParkPosition);
+            self.xParkCoord(s.xParkCoord);
+            self.yParkCoord(s.yParkCoord);
+            self.zParkCoord(s.zParkCoord);
+
+            self.initializeButton();
+            self.updateButton();
         };
-
+        
         self.initializeButton = function() {
             // Setup "Outline" button with square icon
 			self.outlineBtn = $(`<button>`)
@@ -70,7 +60,6 @@ $(function() {
             // Add "Outline" button to print-control div
             var btnContainer = $('#control-jog-general > div'); //$('#job_print').parent();
             btnContainer.append(self.outlineBtn);
-
 		};
 
         self.onOutlineBtnClick = function() {            
@@ -117,29 +106,29 @@ $(function() {
 
         // Check if the button should be enabled.
         self.buttonEnabled = function() {
-            // Button should be enabled if all criteria are met
-            return !self.temperatureState.isPrinting()      // Not currently printing
-                && self.loginState.isUser()                 // User is logged in
-                && self.printerState.filename() != null;    // File is selected
+            return !self.printerState.isPrinting()       // Not currently printing
+                && self.printerState.filename() != null  // File is selected
+                && self.loginState.isUser()              // User is logged in
+                && self.loginState.hasPermission(self.access.permissions.CONTROL);  // User has CONTROL permission
         }
 
         self.updateButton = function() {
 			self.outlineBtn.attr('disabled', !self.buttonEnabled());
 		};
+        self.fromCurrentData = function() {
+            self.updateButton();
+        };
         
-		self.initializeSettings();
-		self.initializeButton();
-		self.fromCurrentData = function() { self.updateButton(); };
-		self.updateButton();
     }
 
-    /* view model class, parameters for constructor, container to bind to
-     * Please see http://docs.octoprint.org/en/master/plugins/viewmodels.html#registering-custom-viewmodels for more details
-     * and a full list of the available options.
-     */
     OCTOPRINT_VIEWMODELS.push({
         construct: WorkAreaOutlinerViewModel,
-        dependencies: [ "loginStateViewModel", "printerStateViewModel", "temperatureViewModel"],
-        elements: []
+        dependencies: [
+            "settingsViewModel", 
+            "loginStateViewModel",
+            "printerStateViewModel",
+            "accessViewModel"
+        ],
+        elements: ["#settings_plugin_WorkAreaOutliner"]
     });
 });
